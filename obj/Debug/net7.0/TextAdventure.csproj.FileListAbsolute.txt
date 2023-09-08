@@ -1,0 +1,14 @@
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\bin\Debug\net7.0\TextAdventure.exe
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\bin\Debug\net7.0\TextAdventure.deps.json
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\bin\Debug\net7.0\TextAdventure.runtimeconfig.json
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\bin\Debug\net7.0\TextAdventure.dll
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\bin\Debug\net7.0\TextAdventure.pdb
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\TextAdventure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\TextAdventure.AssemblyInfoInputs.cache
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\TextAdventure.AssemblyInfo.cs
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\TextAdventure.csproj.CoreCompileInputs.cache
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\TextAdventure.dll
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\refint\TextAdventure.dll
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\TextAdventure.pdb
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\TextAdventure.genruntimeconfig.cache
+C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\obj\Debug\net7.0\ref\TextAdventure.dll
