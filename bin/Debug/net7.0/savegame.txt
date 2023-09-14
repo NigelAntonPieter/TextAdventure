@@ -1,0 +1,1 @@
+PlayerLocation:C:\Users\napie\OneDrive\WIN\Praktijkopdrachten\TextAdventure\bin\Debug\net7.0\savegame.txt
