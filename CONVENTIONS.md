@@ -17,7 +17,6 @@
    }
 
 ## camelCase for variables, functions, and members.
-
 ### Example:
 
     public class Man
