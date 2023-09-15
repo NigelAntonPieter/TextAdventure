@@ -13,9 +13,8 @@ namespace TextAdventure
         static void Main(string[] ags)
         {
             isGameRunning = true;
-            
-            
-                Console.WriteLine("\nWelcome to Detective Black: Curio Chronicles");
+         
+                Console.WriteLine("Welcome to Detective Black: Curio Chronicles");
                 Console.WriteLine("You're Detective James Black, tasked with solving a murder at curio School");
                 Console.WriteLine("follow clues and identify the victim to bring justice to this mysterious case.");
                 Console.WriteLine("Can you crack the case?");
@@ -44,9 +43,6 @@ namespace TextAdventure
                 {
                     Console.WriteLine("Ongeldig commando. Typ 'start' om een nieuw spel te beginnen of 'hervat' om verder te gaan.");
                 }
-
-            
-
         }
 
         static void EnterFurther()
@@ -56,7 +52,12 @@ namespace TextAdventure
             Console.Clear();
         }
 
-        
+        static void PlayersLocation()
+        {
+
+        }
+
+
         static void StartNewGame()
         {
            
@@ -88,8 +89,7 @@ namespace TextAdventure
                     Console.WriteLine("\nYou ask here what the fight was about");
                     Console.WriteLine("she said they had i figth about that he was to afraid to ride with her in the car");
                     EnterFurther();
-                    
-
+                    playerLocation = investigateChoice;
                 }
                 else if (investigateChoice == "wiardi")
                 {
@@ -97,19 +97,23 @@ namespace TextAdventure
                     Console.WriteLine("Wiardi seems nervous and avoids eye contact. you ask him where i saw Manderijn last");
                     Console.WriteLine("Wiardi admits to cutting snail eyes but claims it has nothing to do with Manderijn's murder.");
                     EnterFurther();
-                    playerLocation = "wiardi";
-                   
-
+                    playerLocation = investigateChoice;
                 }
-                else if(investigateChoice == "Nigel")
+                else if(investigateChoice == "nigel")
                 {
-
+                    Console.WriteLine("You choose to speak to Nigel.");
+                    Console.WriteLine("Nigel is looking unbothered by the whole experience. you ask him where i saw Manderijn last");
+                    Console.WriteLine("He said he saw him in class working on his project before he the teacher pulled him out off class.");
+                    EnterFurther();
+                    playerLocation = investigateChoice;
+                    
                 }
                 else if (investigateChoice == "collin")
                 {
                     Console.WriteLine("You choose to speak to Collin.");
                     Console.WriteLine("Collin appears agitated and tells you he hasn't seen Manderijn in days.");
                     EnterFurther();
+                    playerLocation = investigateChoice;
                 }
                 else if(investigateChoice == "save")
                 {
@@ -122,7 +126,6 @@ namespace TextAdventure
                     }
                 }
                 
-
                 if (!hasfoundClue)
                 {
                     if (investigateChoice == "body")
@@ -139,7 +142,6 @@ namespace TextAdventure
                             hasfoundClue = true;
                             Console.ReadKey();
                             Console.Clear();
-
                         }
                         else if (pickUpItem.ToLower() == "no")
                         {
@@ -150,13 +152,8 @@ namespace TextAdventure
                             Console.WriteLine("Now that you have found an important clue, you can continue with the story.");
                         }
                     }
-
                 }
-            }
-                
-            
-
-            
+            }  
         }
          static void ResumeGame()
         {
@@ -177,21 +174,16 @@ namespace TextAdventure
                 {
                     playerLocation = value;
                 }
-                
-               
             }
-
             Console.WriteLine("Je hervat het opgeslagen spel op locatie: " + playerLocation);
-        }
+          }   
 
         static void SaveGame()
         {
             try
             {
-                
                 string gameDataToSave = $"PlayerLocation:{playerLocation}";
 
-               
                 File.WriteAllText(saveFileName, gameDataToSave);
 
                 Console.WriteLine("Spel opgeslagen.");
@@ -201,8 +193,6 @@ namespace TextAdventure
                 Console.WriteLine("Er is een fout opgetreden bij het opslaan van het spel: " + ex.Message);
             }
         }
-
-        
     }
 }
 
