@@ -17,8 +17,7 @@ namespace TextAdventure
                 Console.WriteLine("You're Detective James Black, tasked with solving a murder at curio School");
                 Console.WriteLine("follow clues and identify the victim to bring justice to this mysterious case.");
                 Console.WriteLine("Can you crack the case?");
-                Console.WriteLine("Press s to save");
-                Console.WriteLine("Press x to exit");
+                Console.WriteLine("Typ Quit if you save the game or if you wanna guess who de killer is ");
                 gameLogic.EnterFurther();
                 Console.WriteLine("Typ 'start'om het spel te beginnen of typ 'hervat' om verder te gaan");
                 Console.Write("> ");
@@ -34,26 +33,13 @@ namespace TextAdventure
                     {
                         gameLogic.ResumeGame();
                     }
-                    else
-                    {
-                        Console.WriteLine("Geen opgeslagen spel gevonden. Begin een nieuw spel");
-                        gameLogic.StartNewGame();
-                    }
-                }
-                else if (input=="s")
-                {
-                    gameLogic.Endgame();
                 }
                 else
                 {
                     Console.WriteLine("Ongeldig commando. Typ 'start' om een nieuw spel te beginnen of 'hervat' om verder te gaan.");
-
                 }
-
             }
         }
-
-
     }
 }
 

@@ -1,1 +1,1 @@
-PlayerLocation:start
+PlayerLocation:luna, hasFoundClue:True
