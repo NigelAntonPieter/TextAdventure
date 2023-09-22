@@ -10,117 +10,57 @@ namespace TextAdventure
     internal class GameLogic
     {
         public string saveFileName { get; }
-        private bool isGameRunning {  get; set; }
         private bool hasfoundClue {  get; set; }
+        public string playerLocation { get; set; }
 
-        private string playerLocation {  get; set; }
+        public bool isNewGame { get; set; } = false;
 
         public GameLogic()
         {
             saveFileName = Path.Combine(Environment.CurrentDirectory, "savegame.txt");
-            isGameRunning = false;
+            Program.isGameRunning = false;
             hasfoundClue = false;
-        }
-        public void Endgame()
-        {
-            Console.WriteLine("\nPress 's' to save the game and exit, or press 'x' to exit the game without saving, or press Enter to choice who the killer is.");
-            ConsoleKeyInfo keyInfo = Console.ReadKey();
-            if (keyInfo.KeyChar == 's')
-            {
-                SaveGame();
-                Console.WriteLine("Exiting the game.");
-                isGameRunning = false;
-                Environment.Exit(0);
-            }
-            else if (keyInfo.KeyChar == 'x')
-            {
-                Console.WriteLine("Exiting the game without saving.");
-                isGameRunning = false;
-                Environment.Exit(0);
-            }
-            else
-            {
-                Console.WriteLine("You have interrogated all four suspects.");
-                Console.WriteLine("Who do you think the murderer is? (luna/wiardi/Nigel/collin)");
-                Console.Write("> ");
-                string murdererGuess = Console.ReadLine().ToLower();
-
-                if (murdererGuess == "luna")
-                {
-                    Console.WriteLine("You have guessed the murderer correctly! Well done.");
-                    Console.WriteLine("Now, who do you think helped Luna? (wiardi/Nigel/both/none)");
-                    Console.Write("> ");
-                    string accompliceGuess = Console.ReadLine().ToLower();
-
-                    if (accompliceGuess == "wiardi" || accompliceGuess == "nigel")
-                    {
-                        Console.WriteLine("Congratulations! You have solved the case.");
-                        Console.WriteLine("The suspects have been arrested and taken away.");
-                        Console.WriteLine("Before Luna is put in the police car, she threatens you one more time.");
-                        Console.WriteLine("You laugh it off and get promoted.");
-                        Console.WriteLine("After a big celebration, you go home and sleep.");
-                        Console.WriteLine("You wake up to a noise and see Luna standing in front of you with a knife.");
-                        Console.WriteLine("She stabs you, but you solved the case.");
-                        Console.WriteLine("Game over!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Unfortunately, you didn't guess the accomplices correctly.");
-                        Console.WriteLine("You are fired, your wife leaves you and takes the children.");
-                        Console.WriteLine("You become addicted to alcohol and die from alcohol poisoning.");
-                        Console.WriteLine("Game over!");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Unfortunately, you guessed the wrong murderer.");
-                    Console.WriteLine("You are fired, your wife leaves you and takes the children.");
-                    Console.WriteLine("You become addicted to alcohol and die from alcohol poisoning.");
-                    Console.WriteLine("Game over!");
-                }
-            }
-            isGameRunning = false;
-        }
-
-        public void EnterFurther()
-        {
-            Console.WriteLine("Press enter to continue");
-            Console.ReadKey();
-            Console.Clear();
         }
 
         public void StartNewGame()
         {
-            isGameRunning = true;
-            Console.WriteLine("\nYou get to the location where the dead body is, the name of the victim is Manderijn");
-            Console.WriteLine(" there are 4 people getting accused for this crime.");
-            Console.WriteLine("\nThe first one is Luna, short girl , red hair doesnt like the victim says she wants to kill him all the time, her alibi is that she was on the toilet when it happend");
-            Console.WriteLine("\nthe second one is Wiardi, looks like jeffrey dahmer can tolerate the victim. Likes to cut of snail eyes. He says he was talking to Nigel about a project outside the class");
-            Console.WriteLine("\nThe third one is Nigel, a tall handsome black guy (if i say so myself hehehe) also doesnt like the victim. Says he really wanna get rid of him but will never kill him. He says he was talking with a teacher");
-            Console.WriteLine("\nand the last one is Collin, he is a weird guy dropped out of school. is friends with the victim but not really that close ");
-
-            if (!string.IsNullOrEmpty(playerLocation))
+            Console.WriteLine("Doel: Vind de moordenaar\n");
+            if (File.Exists(saveFileName))
             {
-                Console.WriteLine($"You continue your investigation from {playerLocation}");
+                ResumeGame();
             }
-
-            EnterFurther();
-
-            while (isGameRunning)
+            else
             {
-                Console.WriteLine("Do you wanna look at the dead body or do you wanna speak to suspects? (body/luna/wiardi/Nigel/collin)");
-                Console.Write("> ");
-                string investigateChoice = Console.ReadLine().ToLower();
+                Console.WriteLine("\nYou get to the location where the dead body is, the name of the victim is Manderijn");
+                Console.WriteLine(" there are 4 people getting accused for this crime.");
+                Console.WriteLine("\nThe first one is Luna, short girl , red hair doesnt like the victim says she wants to kill him all the time, her alibi is that she was on the toilet when it happend");
+                Console.WriteLine("\nthe second one is Wiardi, looks like jeffrey dahmer can tolerate the victim. Likes to cut of snail eyes. He says he was talking to Nigel about a project outside the class");
+                Console.WriteLine("\nThe third one is Nigel, a tall handsome black guy (if i say so myself hehehe) also doesnt like the victim. Says he really wanna get rid of him but will never kill him. He says he was talking with a teacher");
+                Console.WriteLine("\nand the last one is Collin, he is a weird guy dropped out of school. is friends with the victim but not really that close ");
+                EnterFurther();
+            }
+            Program.isGameRunning = true;
+            string investigateChoice = " ";
+            while (Program.isGameRunning)
+            {
+                if (isNewGame == false)
+                {
+                    Console.WriteLine("Do you wanna look at the dead body or do you wanna speak to suspects? (body/luna/wiardi/Nigel/collin)");
+                    Console.Write("> ");
+                    investigateChoice = Console.ReadLine().ToLower();
+                }
+               
                 if (!hasfoundClue)
                 {
+
                     if (investigateChoice == "collin")
                     {
                         Console.WriteLine("You choose to speak to Collin.");
                         Console.WriteLine("Collin appears agitated and tells you he hasn't seen Manderijn in days.");
                         EnterFurther();
-                        playerLocation = investigateChoice;
+                        
                     }
-                    else if (investigateChoice == "body")
+                    else if (investigateChoice == "body" || playerLocation == "body")
                     {
                         Console.WriteLine("You bend down to the body and see that he was stabbed.");
                         Console.WriteLine("You see something laying beside his head, do you pick it up? (Yes/No)");
@@ -143,47 +83,53 @@ namespace TextAdventure
                         {
                             Console.WriteLine("You need to pick one of them genius .");
                         }
-                    }
-                    else if (investigateChoice == "luna")
-                    {
-                        Console.WriteLine("You choose to speak to Luna.");
-                        Console.WriteLine("\nLuna tells you she was with Manderijn today but she had a argument with him.");
-                        Console.WriteLine("\nYou ask here what the argument was about");
-                        Console.WriteLine("\nShe lost patience with him because he kept telling her he liked her but she didnt feel the same way ");
-                        Console.WriteLine("Are you asking her to empty her pockets(Yes/No)");
-                        Console.Write("> ");
-                        string pocketItem = Console.ReadLine();
-
-                        if (pocketItem.ToLower() == "yes")
-                        {
-                            Console.WriteLine("She says she does not wanna do that and runs away, are you chasing her? (Yes/no) .");
-                            Console.Write("> ");
-                            string runAfter = Console.ReadLine();
-
-                            if (runAfter.ToLower() == "yes")
-                            {
-                                Console.WriteLine("You run after her and tackle her, when she falls a bloody cloth falls out her pocket, you found an important clue .");
-                                hasfoundClue = true;
-                                Console.ReadKey();
-                                Console.Clear();
-                            }
-                            else if (runAfter.ToLower() == "no")
-                            {
-                                Console.WriteLine("You are one lazy detective are you. You're getting real close to getting fired, but the game continues.");
-                            }
-                        }
-                        else if (pocketItem.ToLower() == "no")
-                        {
-                            Console.WriteLine("Are you scared of the girl wauw thats is really bad. You are a bad detective, but the game continues.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("You need to chose yes/no.");   
-                        }
-                        EnterFurther();
                         playerLocation = investigateChoice;
                     }
-                    else if(investigateChoice == "wiardi")
+                    else if (investigateChoice == "luna"  || playerLocation == "luna")
+                    {
+                        while(Program.isGameRunning)
+                        {
+                            Console.WriteLine("You choose to speak to Luna.");
+                            Console.WriteLine("\nLuna tells you she was with Manderijn today but she had a argument with him.");
+                            Console.WriteLine("\nYou ask here what the argument was about");
+                            Console.WriteLine("\nShe lost patience with him because he kept telling her he liked her but she didnt feel the same way ");
+                            Console.WriteLine("Are you asking her to empty her pockets(Yes/No)");
+                            Console.Write("> ");
+                            string pocketItem = Console.ReadLine();
+
+                            if (pocketItem.ToLower() == "yes")
+                            {
+                                Console.WriteLine("She says she does not wanna do that and runs away, are you chasing her? (Yes/no) .");
+                                Console.Write("> ");
+                                string runAfter = Console.ReadLine();
+
+                                if (runAfter.ToLower() == "yes")
+                                {
+                                    Console.WriteLine("You run after her and tackle her, when she falls a bloody cloth falls out her pocket, you found an important clue .");
+                                    hasfoundClue = true;
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                }
+                                else if (runAfter.ToLower() == "no")
+                                {
+                                    Console.WriteLine("You are one lazy detective are you. You're getting real close to getting fired, but the game continues.");
+                                }
+                            }
+                            else if (pocketItem.ToLower() == "no")
+                            {
+                                Console.WriteLine("Are you scared of the girl wauw thats is really bad. You are a bad detective, but the game continues.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("You need to chose yes/no.");
+                            }
+                            playerLocation = investigateChoice;
+                            EnterFurther();
+
+                        }
+
+                    }
+                    else if (investigateChoice == "wiardi" || playerLocation == "wiardi")
                     {
                         Console.WriteLine("You choose to speak to Wiardi.");
                         Console.WriteLine("Wiardi seems nervous and avoids eye contact. you ask him where I saw Manderijn last.");
@@ -249,11 +195,10 @@ namespace TextAdventure
                         {
                             Console.WriteLine("You need to chose yes/no.");
                         }
-
-                        EnterFurther();
                         playerLocation = investigateChoice;
+                        EnterFurther();
                     }
-                    else if (investigateChoice == "Nigel")
+                    else if (investigateChoice == "nigel"|| playerLocation == "nigel")
                     {
                         Console.WriteLine("You choose to speak to Nigel.");
                         Console.WriteLine("Nigel is looking unbothered by the whole experience. you ask him where i saw Manderijn last");
@@ -318,71 +263,63 @@ namespace TextAdventure
                         {
                             Console.WriteLine("You need to chose yes/no.");
                         }
-                        EnterFurther();
                         playerLocation = investigateChoice;
+                        EnterFurther();
                     }
                 }
                 if (investigateChoice == "quit")
                 {
                     Endgame();
                 }
-                else
-                {
-                    continue;
-                }
+                
             }
+
         }
-
-        public void ResumeGame()
-        {
-            isGameRunning = true;
-
-            try
+            public void ResumeGame()
             {
-                string savedGameData = File.ReadAllText(saveFileName);
+                Program.isGameRunning = true;
+                isNewGame = true;
 
-                string[] savedDataParts = savedGameData.Split(',');
-
-                foreach (string dataPart in savedDataParts)
+                try
                 {
-                    string[] keyValue = dataPart.Split(':');
-                    string key = keyValue[0];
-                    string value = keyValue[1];
+                    string savedGameData = File.ReadAllText(saveFileName);
 
-                    if (key == "PlayerLocation")
+                    string[] savedDataParts = savedGameData.Split(',');
+
+                    foreach (string dataPart in savedDataParts)
                     {
-                        playerLocation = value;
+                        string[] keyValue = dataPart.Split(':');
+                        string key = keyValue[0];
+                        string value = keyValue[1];
+
+                        if (key == "PlayerLocation")
+                        {
+                            playerLocation = value;
+                        }
+                        else if (key == "HasFoundClue")
+                        {
+                            hasfoundClue = bool.Parse(value);
+                        }
                     }
-                    else if (key == "HasFoundClue")
+                    Console.WriteLine("Het spel is hervat vanaf locatie: " + playerLocation + hasfoundClue);
+                    //Program.isGameRunning = true;
+                    if (hasfoundClue)
                     {
-                        hasfoundClue = bool.Parse(value);
+                        Console.WriteLine("Je hebt al een belangrijke aanwijzing gevonden.");
                     }
                 }
-
-                Console.WriteLine("Je hervat het opgeslagen spel op locatie: " + playerLocation);
-
-                if (hasfoundClue = true)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Je hebt al een belangrijke aanwijzing gevonden");
-                    Console.WriteLine("Je kunt doorgaan met je onderzoek vanaf dit punt.");
-                }
-                else
-                {
-                    Console.WriteLine("Je hebt nog geen belangrijke aanwijzingen gevonden.");
-                    Console.WriteLine("Je kunt doorgaan met je onderzoek vanaf het begin van het spel.");
-                    // Voeg hier logica toe om het spel te starten vanaf het begin, omdat er nog geen aanwijzingen zijn gevonden.
+                    Console.WriteLine("Er is een fout opgetreden bij het hervatten van het spel: " + ex.Message);
+                    StartNewGame();
+                    return;
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Er is een fout opgetreden bij het hervatten van het spel: " + ex.Message);
-            }
-        }
         public void SaveGame()
         {
             try
             {
-                string gameDataToSave = $"PlayerLocation:{playerLocation}, hasFoundClue:{hasfoundClue}";
+                string gameDataToSave = $"PlayerLocation:{playerLocation} Hasfoundclue: {hasfoundClue}";
 
                 File.WriteAllText(saveFileName, gameDataToSave);
 
@@ -393,6 +330,80 @@ namespace TextAdventure
                 Console.WriteLine("Er is een fout opgetreden bij het opslaan van het spel: " + ex.Message);
             }
         }
+
+        public void Endgame()
+        {
+            Console.WriteLine("\nPress 's' to save the game and exit, or press 'x' to exit the game without saving, or press Enter to choice who the killer is.");
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            if (keyInfo.KeyChar == 's')
+            {
+                SaveGame();
+                Console.WriteLine("Exiting the game.");
+                Program.isGameRunning = false;
+                Environment.Exit(0);
+            }
+            else if (keyInfo.KeyChar == 'x')
+            {
+                Console.WriteLine("Exiting the game without saving.");
+                Program.isGameRunning = false;
+                Environment.Exit(0);
+            }
+            else
+            {
+                Console.WriteLine("You have interrogated all four suspects.");
+                Console.WriteLine("Who do you think the murderer is? (luna/wiardi/Nigel/collin)");
+                Console.Write("> ");
+                string murdererGuess = Console.ReadLine().ToLower();
+
+                if (murdererGuess == "luna")
+                {
+                    Console.WriteLine("You have guessed the murderer correctly! Well done.");
+                    Console.WriteLine("Now, who do you think helped Luna? (wiardi/Nigel/both/none)");
+                    Console.Write("> ");
+                    string accompliceGuess = Console.ReadLine().ToLower();
+
+                    if (accompliceGuess == "wiardi" || accompliceGuess == "nigel")
+                    {
+                        Console.WriteLine("Congratulations! You have solved the case.");
+                        Console.WriteLine("The suspects have been arrested and taken away.");
+                        Console.WriteLine("Before Luna is put in the police car, she threatens you one more time.");
+                        Console.WriteLine("You laugh it off and get promoted.");
+                        Console.WriteLine("After a big celebration, you go home and sleep.");
+                        Console.WriteLine("You wake up to a noise and see Luna standing in front of you with a knife.");
+                        Console.WriteLine("She stabs you, but you solved the case.");
+                        Console.WriteLine("Game over!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Unfortunately, you didn't guess the accomplices correctly.");
+                        Console.WriteLine("You are fired, your wife leaves you and takes the children.");
+                        Console.WriteLine("You become addicted to alcohol and die from alcohol poisoning.");
+                        Console.WriteLine("Game over!");
+                    }
+                }
+                else if (murdererGuess == "quit")
+                {
+                    Endgame();
+                }
+                else
+                {
+                    Console.WriteLine("Unfortunately, you guessed the wrong murderer.");
+                    Console.WriteLine("You are fired, your wife leaves you and takes the children.");
+                    Console.WriteLine("You become addicted to alcohol and die from alcohol poisoning.");
+                    Console.WriteLine("Game over!");
+                }
+                playerLocation = murdererGuess;
+            }
+
+        }
+
+        public void EnterFurther()
+        {
+            Console.WriteLine("Press enter to continue");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
     }
 }
 
